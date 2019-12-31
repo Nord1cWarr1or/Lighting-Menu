@@ -1,0 +1,17 @@
+[en]
+LIGHTINGMENU_CHAT_DEFAULT   = ^1Admin ^3%n ^1set the lighting to ^4Default
+LIGHTINGMENU_CHAT_OTHER     = ^1Admin ^3%n ^1set the lighting to ^4%s
+LIGHTINGMENU_MENU_HEAD      = Choose the lighting:
+LIGHTINGMENU_MENU_DEFAULT   = Default
+LIGHTINGMENU_MENU_EXIT      = Exit
+LIGHTINGMENU_MENU_BACK      = Back
+LIGHTINGMENU_MENU_MORE      = More
+
+[ru]
+LIGHTINGMENU_CHAT_DEFAULT   = ^1Админ ^3%n ^1установил освещение ^4Стандарт
+LIGHTINGMENU_CHAT_OTHER     = ^1Админ ^3%n ^1установил освещение ^4%s
+LIGHTINGMENU_MENU_HEAD      = Выберите освещение:
+LIGHTINGMENU_MENU_DEFAULT   = Стандарт
+LIGHTINGMENU_MENU_EXIT      = Выход
+LIGHTINGMENU_MENU_BACK      = Назад
+LIGHTINGMENU_MENU_MORE      = Далее
