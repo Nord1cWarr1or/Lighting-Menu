@@ -19,9 +19,8 @@
 #include <amxmodx>
 #include <amxmisc>
 #include <engine>
-#tryinclude <PersistentDataStorage>
 
-new const PLUGIN_VERSION[] = "0.1.0";
+new const PLUGIN_VERSION[] = "0.1.1";
 
 new const CONFIG_FILE[] = "LightingMenu.ini";   // Name of the config file with lighting parameters
 
@@ -42,12 +41,6 @@ new Array:g_ArrayLightingInfo;
 new g_iCurrentLightingLevel = DEFAULT_LIGHT_LEVEL;
 new g_iFwdSetLightingPre, g_iFwdSetLightingPost;
 
-#if defined _PDS_included
-new const SAVE_KEY[] = "LightingLevel";
-new bool:g_bSaveKeyExists;
-new g_iCvarSave;
-#endif
-
 public plugin_init()
 {
     register_plugin("Lighting Menu", PLUGIN_VERSION, "Nordic Warrior");
@@ -64,12 +57,10 @@ public plugin_init()
 
     ReadConfig();
 
-    #if defined _PDS_included
-    new pCvarSave = register_cvar("amx_lightmenu_save", "1");
-    bind_pcvar_num(pCvarSave, g_iCvarSave);
+    register_cvar("amx_lightmenu_save", "1");
+    register_cvar("amx_lightmenu_saved_value", fmt("%i", DEFAULT_LIGHT_LEVEL));     // Don't modify!
 
     LoadLightLevel();
-    #endif
 
     register_cvar("LightingMenu_version", PLUGIN_VERSION, FCVAR_SERVER|FCVAR_SPONLY|FCVAR_UNLOGGED);
 }
@@ -247,22 +238,17 @@ public native_set_custom_lighting_level(iPluginId, iParams)
     return true;  
 }
 
-#if defined _PDS_included
 public LoadLightLevel()
 {
-    g_bSaveKeyExists = PDS_GetCell(SAVE_KEY, g_iCurrentLightingLevel);
+    g_iCurrentLightingLevel = get_cvar_num("amx_lightmenu_saved_value");
 
-    if(!g_bSaveKeyExists || !g_iCvarSave)
+    if(!get_cvar_num("amx_lightmenu_save"))
+    {
         g_iCurrentLightingLevel = DEFAULT_LIGHT_LEVEL;
+    }
 
     SetLightLevel(g_iCurrentLightingLevel);
 }
-
-public PDS_Save()
-{
-    PDS_SetCell(SAVE_KEY, g_iCurrentLightingLevel);
-}
-#endif
 
 SetLightLevel(iLevel)
 {
@@ -283,4 +269,9 @@ SetLightLevel(iLevel)
             }
         }
     }
+}
+
+public plugin_end()
+{
+    set_cvar_num("amx_lightmenu_saved_value", g_iCurrentLightingLevel);
 }
